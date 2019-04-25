@@ -182,7 +182,7 @@ genrule(
         "@gemmlowp//:LICENSE",
         "@gif_archive//:COPYING",
         "@highwayhash//:LICENSE",
-        "@icu//:icu4j/main/shared/licenses/LICENSE",
+        #"@icu//:icu4j/main/shared/licenses/LICENSE",
         "@jpeg//:LICENSE.md",
         "@llvm//:LICENSE.TXT",
         "@lmdb//:LICENSE",
