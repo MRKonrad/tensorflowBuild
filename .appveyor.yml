@@ -19,8 +19,10 @@ install:
   - python -m pip install six numpy wheel
   - python -m pip install keras_applications==1.0.6 --no-deps
   - python -m pip install keras_preprocessing==1.0.5 --no-deps
+  - python -m pip install swiglpk
   - choco install mono
   - choco install bazel
+  - choco install swig
   ### instead of pacman -q -S git patch unzip
   # - choco install patch
   # - choco install unzip
@@ -39,8 +41,9 @@ build_script:
   - set PIP_EXE="C:\Python37-x64\Scripts\pip.exe"
   - set CMAKE_EXE="C:\Program Files (x86)\CMake\bin\cmake"
   - set REPO_ROOT=%TF_CODE_FOLDER%
+  - which swig
   - tensorflow\tools\ci_build\windows\cpu\cmake\run_build.bat
 
 notifications:
 - provider: Slack
-  incoming_webhook: '%SLACK_WEBHOOK%'
+  incoming_webhook: %SLACK_WEBHOOK%
