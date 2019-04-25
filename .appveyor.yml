@@ -33,8 +33,6 @@ cache:
 build_script:
   - cd %TF_CODE_FOLDER%
   - dir
-  # - python ./configure.py
-  - cd %TF_CODE_FOLDER%\tensorflow\
   - set PY_EXE=C:\Python37-x64\python.exe
   - set PIP_EXE=C:\Python37-x64\Scripts\pip.exe
   - tensorflow\tools\ci_build\windows\cpu\cmake\run_build.bat
