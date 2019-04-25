@@ -41,9 +41,10 @@ build_script:
   - set PIP_EXE="C:\Python37-x64\Scripts\pip.exe"
   - set CMAKE_EXE="C:\Program Files (x86)\CMake\bin\cmake"
   - set REPO_ROOT=%TF_CODE_FOLDER%
-  - which swig
+  - set SWIG_EXE=C:\ProgramData\chocolatey\bin\swig
   - tensorflow\tools\ci_build\windows\cpu\cmake\run_build.bat
 
 notifications:
 - provider: Slack
-  incoming_webhook: '%SLACK_WEBHOOK%'
+  incoming_webhook:
+    secure: '%SLACK_WEBHOOK%'
