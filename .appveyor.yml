@@ -14,15 +14,18 @@ install:
   - pip install keras_preprocessing==1.0.5 --no-deps
   - choco install mono
   - choco install bazel
+  - choco install patch
+  - choco install unzip
   # - set PATH=C:\tools\msys64\usr\bin;%PATH%
   # - pacman -q -S git patch unzip
 
 cache:
-  - C:\ProgramData\chocolatey\mono -> appveyor.yml
-  - C:\ProgramData\chocolatey\bazel -> appveyor.yml
+  - C:\ProgramData\chocolatey\lib -> appveyor.yml
+  - C:\ProgramData\chocolatey\bin -> appveyor.yml
   - '%APPVEYOR_BUILD_FOLDER%'
 
 build_script:
+  - dir
   - python ./configure.py
   - cd %APPVEYOR_BUILD_FOLDER%/tensorflow/tools/ci_build/windows/
   - sh libtensorflow_cpu.sh
