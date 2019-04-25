@@ -35,6 +35,9 @@ build_script:
   - dir
   - set PY_EXE=C:\Python37-x64\python.exe
   - set PIP_EXE=C:\Python37-x64\Scripts\pip.exe
+  - which cmake
+  - which cmake > tmp
+  - set /p CMAKE_EXE= < tmp
   - tensorflow\tools\ci_build\windows\cpu\cmake\run_build.bat
 
 notifications:
