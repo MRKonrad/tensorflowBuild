@@ -51,7 +51,7 @@ build_script:
   - dir %APPVEYOR_BUILD_FOLDER%
   - dir %APPVEYOR_BUILD_FOLDER%\tools
   - dir %APPVEYOR_BUILD_FOLDER%\tools\lib_package
-  - dir %TF_CODE_FOLDER%\tools\lib_package
+  - dir %TF_CODE_FOLDER%\tensorflow\tools\lib_package
   - move /Y %APPVEYOR_BUILD_FOLDER%\tools\lib_package\BUILD %TF_CODE_FOLDER%\tensorflow\tools\lib_package
   - set PYTHON_DIRECTORY=Python37-x64
   - cd %TF_CODE_FOLDER%/tensorflow/tools/ci_build/windows/
