@@ -8,10 +8,20 @@ init:
 environment:
   TF_CODE_FOLDER: '%APPVEYOR_BUILD_FOLDER%\tf_code'
 
+cache:
+  - C:\ProgramData\chocolatey\lib -> appveyor.yml
+  - C:\ProgramData\chocolatey\bin -> appveyor.yml
+  - '%TF_CODE_FOLDER%'
+
 install:
-  - git clone --branch=v1.13.1 https://github.com/tensorflow/tensorflow.git %TF_CODE_FOLDER%
+  - which python
+  - which python3
+  - IF NOT EXIST %TF_CODE_FOLDER% (
+      git clone --branch=v1.13.1 https://github.com/tensorflow/tensorflow.git %TF_CODE_FOLDER% )
   - cd %TF_CODE_FOLDER%
   - C:\Python37-x64\python -m venv %APPVEYOR_BUILD_FOLDER% # https://www.appveyor.com/docs/windows-images-software/#python
+  - which python
+  - which python3
   - pip install six numpy wheel
   - pip install keras_applications==1.0.6 --no-deps
   - pip install keras_preprocessing==1.0.5 --no-deps
@@ -20,11 +30,6 @@ install:
   ### instead of pacman -q -S git patch unzip
   # - choco install patch
   # - choco install unzip
-
-cache:
-  - C:\ProgramData\chocolatey\lib -> appveyor.yml
-  - C:\ProgramData\chocolatey\bin -> appveyor.yml
-  # - '%TF_CODE_FOLDER%'
 
 build_script:
   - cd %TF_CODE_FOLDER%
@@ -35,6 +40,4 @@ build_script:
 
 notifications:
 - provider: Slack
-  auth_token:
-    secure: '%SLACK_API_SIGNING_SECRET%'
-  channel: '#tensorflowbuild'
+  incoming_webhook: '%SLACK_WEBHOOK%'
