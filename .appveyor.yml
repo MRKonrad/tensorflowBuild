@@ -5,9 +5,12 @@ init:
   - git config --global core.autocrlf input
   - ps: Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_BRANCH) - $($env:APPVEYOR_REPO_COMMIT)"
 
+environment:
+  TF_CODE_FOLDER: %APPVEYOR_BUILD_FOLDER%\tf_code
+
 install:
-  - git clone --branch=v1.13.1 https://github.com/tensorflow/tensorflow.git %APPVEYOR_BUILD_FOLDER%
-  - cd %APPVEYOR_BUILD_FOLDER%
+  - git clone --branch=v1.13.1 https://github.com/tensorflow/tensorflow.git %TF_CODE_FOLDER%
+  - cd %TF_CODE_FOLDER%
   - C:\Python37-x64\python -m venv %APPVEYOR_BUILD_FOLDER% # https://www.appveyor.com/docs/windows-images-software/#python
   - pip install six numpy wheel
   - pip install keras_applications==1.0.6 --no-deps
@@ -22,9 +25,10 @@ install:
 cache:
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
-  # - '%APPVEYOR_BUILD_FOLDER%'
+  # - '%TF_CODE_FOLDER%'
 
 build_script:
+  - cd %TF_CODE_FOLDER%
   - dir
   - python ./configure.py
   - cd %APPVEYOR_BUILD_FOLDER%/tensorflow/tools/ci_build/windows/
