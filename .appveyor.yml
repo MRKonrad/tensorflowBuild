@@ -24,7 +24,6 @@ install:
 cache:
   - C:\ProgramData\chocolatey\mono -> appveyor.yml
   - C:\ProgramData\chocolatey\bazel -> appveyor.yml
-  - %APPVEYOR_BUILD_FOLDER%
 
 build_script:
   - python ./configure.py
