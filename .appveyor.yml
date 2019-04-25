@@ -17,10 +17,9 @@ install:
   - pip install keras_preprocessing==1.0.5 --no-deps
   - choco install mono
   - choco install bazel
-  - choco install patch
-  - choco install unzip
-  # - set PATH=C:\tools\msys64\usr\bin;%PATH%
-  # - pacman -q -S git patch unzip
+  ### instead of pacman -q -S git patch unzip
+  # - choco install patch
+  # - choco install unzip
 
 cache:
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
@@ -30,12 +29,12 @@ cache:
 build_script:
   - cd %TF_CODE_FOLDER%
   - dir
-  - python ./configure.py
+  # - python ./configure.py
   - cd %APPVEYOR_BUILD_FOLDER%/tensorflow/tools/ci_build/windows/
   - sh libtensorflow_cpu.sh
 
 notifications:
 - provider: Slack
   auth_token:
-    secure: '%SLACK_API_CLIENT_SECRET%'
+    secure: '%SLACK_API_SIGNING_SECRET%'
   channel: '#tensorflowbuild'
