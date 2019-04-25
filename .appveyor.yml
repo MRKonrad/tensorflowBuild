@@ -11,19 +11,20 @@ clone_script:
   - cmd: dir
 
 install:
-  - choco install mono
-  - choco install bazel
-  - set PATH=C:\Python37-x64;%PATH% # https://www.appveyor.com/docs/windows-images-software/#python
-  - virtualenv -p C:\Python37-x64\python.exe %APPVEYOR_BUILD_FOLDER%
+  - virtualenv -p C:\Python37-x64\python.exe %APPVEYOR_BUILD_FOLDER%# https://www.appveyor.com/docs/windows-images-software/#python
+  - cd %APPVEYOR_BUILD_FOLDER%
   - venv\Scripts\activate
   - pip install six numpy wheel
   - pip install keras_applications==1.0.6 --no-deps
   - pip install keras_preprocessing==1.0.5 --no-deps
+  - choco install mono
+  - choco install bazel
   - pacman -S git patch unzip
 
 cache:
   - C:\ProgramData\chocolatey\mono -> appveyor.yml
   - C:\ProgramData\chocolatey\bazel -> appveyor.yml
+  - %APPVEYOR_BUILD_FOLDER%
 
 build_script:
   - python ./configure.py
