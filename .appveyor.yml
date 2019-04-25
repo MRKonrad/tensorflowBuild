@@ -16,9 +16,9 @@ install:
   # - C:\Python37-x64\python -m venv %APPVEYOR_BUILD_FOLDER% # https://www.appveyor.com/docs/windows-images-software/#python
   - set PATH=C:\Python37-x64;%PATH%
   - which python
-  - pip install six numpy wheel
-  - pip install keras_applications==1.0.6 --no-deps
-  - pip install keras_preprocessing==1.0.5 --no-deps
+  - python -m pip install six numpy wheel
+  - python -m pip install keras_applications==1.0.6 --no-deps
+  - python -m pip install keras_preprocessing==1.0.5 --no-deps
   - choco install mono
   - choco install bazel
   ### instead of pacman -q -S git patch unzip
