@@ -47,8 +47,8 @@ build_script:
   # - python %TF_CODE_FOLDER%\tensorflow\tools\git\gen_git_source.py --raw_generate %TF_CODE_FOLDER%/tensorflow/core/util/version_info.cc
   # - tensorflow\tools\ci_build\windows\cpu\cmake\run_build.bat
   ###
-  - cd %APPVEYOR_BUILD_FOLDER%/tools/lib_package/BUILD %TF_CODE_FOLDER%/tools/lib_package/BUILD
-  - xcopy %TF_CODE_FOLDER%/
+  - cd %TF_CODE_FOLDER%
+  - xcopy /Y %APPVEYOR_BUILD_FOLDER%/tools/lib_package/BUILD %TF_CODE_FOLDER%/tools/lib_package/BUILD
   - set PYTHON_DIRECTORY=Python37-x64
   - cd %TF_CODE_FOLDER%/tensorflow/tools/ci_build/windows/
   - sh libtensorflow_cpu.sh
