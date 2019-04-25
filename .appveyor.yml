@@ -21,16 +21,16 @@ install:
   - python -m pip install keras_preprocessing==1.0.5 --no-deps
   - python -m pip install swiglpk
   - choco install mono
-  - choco install bazel
+  - choco install bazel --version 0.21.0
   - choco install swig
   ### instead of pacman -q -S git patch unzip
   # - choco install patch
   # - choco install unzip
 
-cache:
-  - C:\ProgramData\chocolatey\lib -> appveyor.yml
-  - C:\ProgramData\chocolatey\bin -> appveyor.yml
-  - '%TF_CODE_FOLDER%'
+# cache:
+#   - C:\ProgramData\chocolatey\lib -> appveyor.yml
+#   - C:\ProgramData\chocolatey\bin -> appveyor.yml
+#   - '%TF_CODE_FOLDER%'
 
 build_script:
   - cd %TF_CODE_FOLDER%
@@ -43,7 +43,6 @@ build_script:
   # - set REPO_ROOT=%TF_CODE_FOLDER%
   # - set SWIG_EXE=C:\ProgramData\chocolatey\bin\swig
   # # - tensorflow\tools\ci_build\windows\cpu\cmake\run_build.bat
-  # - xcopy /Y %APPVEYOR_BUILD_FOLDER%\common_env %TF_CODE_FOLDER%\tensorflow\tools\ci_build\windows\bazel\
   - set PYTHON_DIRECTORY=Python37-x64
   - cd %TF_CODE_FOLDER%/tensorflow/tools/ci_build/windows/
   - sh libtensorflow_cpu.sh
