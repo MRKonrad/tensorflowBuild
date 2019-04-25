@@ -46,4 +46,4 @@ build_script:
 
 notifications:
 - provider: Slack
-  incoming_webhook: %SLACK_WEBHOOK%
+  incoming_webhook: '%SLACK_WEBHOOK%'
