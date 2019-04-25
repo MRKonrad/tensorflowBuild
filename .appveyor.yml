@@ -14,8 +14,8 @@ install:
   - pip install keras_preprocessing==1.0.5 --no-deps
   - choco install mono
   - choco install bazel
-  - set PATH=C:\tools\msys64\usr\bin;%PATH%
-  - pacman -q -S git patch unzip
+  # - set PATH=C:\tools\msys64\usr\bin;%PATH%
+  # - pacman -q -S git patch unzip
 
 cache:
   - C:\ProgramData\chocolatey\mono -> appveyor.yml
