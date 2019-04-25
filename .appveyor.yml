@@ -8,11 +8,6 @@ init:
 environment:
   TF_CODE_FOLDER: '%APPVEYOR_BUILD_FOLDER%\tf_code'
 
-cache:
-  - C:\ProgramData\chocolatey\lib -> appveyor.yml
-  - C:\ProgramData\chocolatey\bin -> appveyor.yml
-  - '%TF_CODE_FOLDER%'
-
 install:
   - which python
   - IF NOT EXIST %TF_CODE_FOLDER% (
@@ -30,10 +25,17 @@ install:
   # - choco install patch
   # - choco install unzip
 
+cache:
+  - C:\ProgramData\chocolatey\lib -> appveyor.yml
+  - C:\ProgramData\chocolatey\bin -> appveyor.yml
+  - '%TF_CODE_FOLDER%'
+
 build_script:
   - cd %TF_CODE_FOLDER%
   - dir
   # - python ./configure.py
+  - set PY_EXE=C:\Python37-x64\python.exe
+  - set PIP_EXE=C:\Python37-x64\Scripts\pip.exe
   - cd %TF_CODE_FOLDER%/tensorflow/tools/ci_build/windows/
   - sh libtensorflow_cpu.sh
 
