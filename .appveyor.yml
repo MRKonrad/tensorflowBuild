@@ -1,0 +1,29 @@
+#-------------------#
+#   itkTensorFlow   #
+#-------------------#
+
+os:
+  - Visual Studio 2017
+
+init:
+  - git config --global core.autocrlf input
+  - ps: Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_BRANCH) - $($env:APPVEYOR_REPO_COMMIT)"
+
+clone_script:
+  - cmd: git clone --branch=v1.13.1 https://github.com/tensorflow/tensorflow.git %APPVEYOR_BUILD_FOLDER%
+  - cmd: cd %APPVEYOR_BUILD_FOLDER%
+  - cmd: dir
+
+install:
+  - choco install mono
+  - choco install bazel
+  - set "PATH=%PYTHON%;%PATH%"
+  - python -v
+  - pip3 install six numpy wheel
+  - pip3 install keras_applications==1.0.6 --no-deps
+  - pip3 install keras_preprocessing==1.0.5 --no-deps
+  - pacman -S git patch unzip
+
+build_script:
+  - python ./configure.py
+  - bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
