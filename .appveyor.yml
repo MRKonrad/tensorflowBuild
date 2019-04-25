@@ -38,20 +38,20 @@ build_script:
   - dir
   - dir C:\Python37-x64\libs
   ###
-  - set PY_EXE="C:\Python37-x64\python.exe"
-  - set PY_LIB="C:\Python37-x64\libs\python37.lib"
-  - set PIP_EXE="C:\Python37-x64\Scripts\pip.exe"
-  - set CMAKE_EXE="C:\Program Files (x86)\CMake\bin\cmake"
-  - set REPO_ROOT=%TF_CODE_FOLDER%
-  - set SWIG_EXE=C:\ProgramData\chocolatey\bin\swig
-  - python %TF_CODE_FOLDER%\tensorflow\tools\git\gen_git_source.py --raw_generate %TF_CODE_FOLDER%/tensorflow/core/util/version_info.cc
-  - tensorflow\tools\ci_build\windows\cpu\cmake\run_build.bat
+  # - set PY_EXE="C:\Python37-x64\python.exe"
+  # - set PY_LIB="C:\Python37-x64\libs\python37.lib"
+  # - set PIP_EXE="C:\Python37-x64\Scripts\pip.exe"
+  # - set CMAKE_EXE="C:\Program Files (x86)\CMake\bin\cmake"
+  # - set REPO_ROOT=%TF_CODE_FOLDER%
+  # - set SWIG_EXE=C:\ProgramData\chocolatey\bin\swig
+  # - python %TF_CODE_FOLDER%\tensorflow\tools\git\gen_git_source.py --raw_generate %TF_CODE_FOLDER%/tensorflow/core/util/version_info.cc
+  # - tensorflow\tools\ci_build\windows\cpu\cmake\run_build.bat
   ###
-  # - cd %TF_CODE_FOLDER%
-  # - ./configure
-  # - set PYTHON_DIRECTORY=Python37-x64
-  # - cd %TF_CODE_FOLDER%/tensorflow/tools/ci_build/windows/
-  # - sh libtensorflow_cpu.sh
+  - cd %TF_CODE_FOLDER%
+  - python configure.py
+  - set PYTHON_DIRECTORY=Python37-x64
+  - cd %TF_CODE_FOLDER%/tensorflow/tools/ci_build/windows/
+  - sh libtensorflow_cpu.sh
 
 notifications:
 - provider: Slack
