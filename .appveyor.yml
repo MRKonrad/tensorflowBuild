@@ -35,14 +35,16 @@ cache:
 build_script:
   - cd %TF_CODE_FOLDER%
   - dir
-  - dir C:\Python37-x64\libs
-  - set PY_EXE="C:\Python37-x64\python.exe"
-  - set PY_LIB="C:\Python37-x64\libs\python37.lib"
-  - set PIP_EXE="C:\Python37-x64\Scripts\pip.exe"
-  - set CMAKE_EXE="C:\Program Files (x86)\CMake\bin\cmake"
-  - set REPO_ROOT=%TF_CODE_FOLDER%
-  - set SWIG_EXE=C:\ProgramData\chocolatey\bin\swig
-  # - tensorflow\tools\ci_build\windows\cpu\cmake\run_build.bat
+  # - dir C:\Python37-x64\libs
+  # - set PY_EXE="C:\Python37-x64\python.exe"
+  # - set PY_LIB="C:\Python37-x64\libs\python37.lib"
+  # - set PIP_EXE="C:\Python37-x64\Scripts\pip.exe"
+  # - set CMAKE_EXE="C:\Program Files (x86)\CMake\bin\cmake"
+  # - set REPO_ROOT=%TF_CODE_FOLDER%
+  # - set SWIG_EXE=C:\ProgramData\chocolatey\bin\swig
+  # # - tensorflow\tools\ci_build\windows\cpu\cmake\run_build.bat
+  # - xcopy /Y %APPVEYOR_BUILD_FOLDER%\common_env %TF_CODE_FOLDER%\tensorflow\tools\ci_build\windows\bazel\
+  - set PYTHON_DIRECTORY=Python37-x64
   - cd %TF_CODE_FOLDER%/tensorflow/tools/ci_build/windows/
   - sh libtensorflow_cpu.sh
 
