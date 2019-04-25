@@ -30,7 +30,7 @@ build_script:
   - cd %TF_CODE_FOLDER%
   - dir
   # - python ./configure.py
-  - cd %APPVEYOR_BUILD_FOLDER%/tensorflow/tools/ci_build/windows/
+  - cd %TF_CODE_FOLDER%/tensorflow/tools/ci_build/windows/
   - sh libtensorflow_cpu.sh
 
 notifications:
