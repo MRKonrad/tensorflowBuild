@@ -6,7 +6,7 @@ init:
   - ps: Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_BRANCH) - $($env:APPVEYOR_REPO_COMMIT)"
 
 environment:
-  TF_CODE_FOLDER: %APPVEYOR_BUILD_FOLDER%\tf_code
+  TF_CODE_FOLDER: '%APPVEYOR_BUILD_FOLDER%\tf_code'
 
 install:
   - git clone --branch=v1.13.1 https://github.com/tensorflow/tensorflow.git %TF_CODE_FOLDER%
