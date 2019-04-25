@@ -15,7 +15,7 @@ install:
   - choco install mono
   - choco install bazel
   - set PATH=C:\tools\msys64\usr\bin;%PATH%
-  - pacman -S git patch unzip
+  - pacman -q -S git patch unzip
 
 cache:
   - C:\ProgramData\chocolatey\mono -> appveyor.yml
@@ -26,3 +26,9 @@ build_script:
   - python ./configure.py
   - cd %APPVEYOR_BUILD_FOLDER%/tensorflow/tools/ci_build/windows/
   - sh libtensorflow_cpu.sh
+
+notifications:
+- provider: Slack
+  auth_token:
+    secure: '%SLACK_API_CLIENT_SECRET%'
+  channel: '#tensorflowbuild'
