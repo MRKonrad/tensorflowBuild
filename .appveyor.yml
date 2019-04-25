@@ -17,8 +17,7 @@ clone_script:
 install:
   - choco install mono
   - choco install bazel
-  - set "PATH=%PYTHON%;%PATH%"
-  - python -v
+  - set PATH=C:\Python37-x64;%PATH% # https://www.appveyor.com/docs/windows-images-software/#python
   - pip3 install six numpy wheel
   - pip3 install keras_applications==1.0.6 --no-deps
   - pip3 install keras_preprocessing==1.0.5 --no-deps
@@ -26,4 +25,5 @@ install:
 
 build_script:
   - python ./configure.py
-  - bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package
+  - cd %APPVEYOR_BUILD_FOLDER%/tensorflow/tools/ci_build/windows/
+  - sh libtensorflow_cpu.sh
