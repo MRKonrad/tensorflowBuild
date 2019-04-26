@@ -11,7 +11,7 @@ environment:
 install:
   - which python
   - IF NOT EXIST %TF_CODE_FOLDER% (
-      git clone --branch=v1.13.1 https://github.com/tensorflow/tensorflow.git %TF_CODE_FOLDER% )
+      git clone https://github.com/tensorflow/tensorflow.git %TF_CODE_FOLDER% )
   - cd %TF_CODE_FOLDER%
   - git submodule update --init --recursive
   # - C:\Python37-x64\python -m venv %APPVEYOR_BUILD_FOLDER% # https://www.appveyor.com/docs/windows-images-software/#python
@@ -53,7 +53,7 @@ build_script:
   - dir %APPVEYOR_BUILD_FOLDER%\tools\lib_package
   - dir %TF_CODE_FOLDER%\tensorflow\tools\lib_package
   # - move /Y %APPVEYOR_BUILD_FOLDER%\tools\lib_package\BUILD %TF_CODE_FOLDER%\tensorflow\tools\lib_package
-  - move /Y %APPVEYOR_BUILD_FOLDER%\icu %TF_CODE_FOLDER%\third_party
+  # - move /Y %APPVEYOR_BUILD_FOLDER%\icu %TF_CODE_FOLDER%\third_party
   - set PYTHON_DIRECTORY=Python37-x64
   - cd %TF_CODE_FOLDER%/tensorflow/tools/ci_build/windows/
   - sh libtensorflow_cpu.sh
