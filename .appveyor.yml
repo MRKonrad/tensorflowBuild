@@ -1,64 +1,50 @@
-os:
+image:
   - Visual Studio 2015
 
-init:
-  - git config --global core.autocrlf input
-  - ps: Update-AppveyorBuild -Version "$($env:APPVEYOR_REPO_BRANCH) - $($env:APPVEYOR_REPO_COMMIT)"
+platform:
+- x64
 
 environment:
-  TF_CODE_FOLDER: '%APPVEYOR_BUILD_FOLDER%\tf_code'
+  os_name: windows
+  tf_type: cpu
+  tf_tag_name: r1.6
+  tf_version: 1.6.0
+
+  matrix:
+    - vcvar_arg: x86
+      platform_name: x86
+      cmake_ext_arg: ""
+    - vcvar_arg: amd64
+      platform_name: x86_64
+      cmake_ext_arg: " -A x64"
 
 install:
-  - which python
-  - IF NOT EXIST %TF_CODE_FOLDER% (
-      git clone https://github.com/tensorflow/tensorflow.git %TF_CODE_FOLDER% )
-  - cd %TF_CODE_FOLDER%
-  - git submodule update --init --recursive
-  # - C:\Python37-x64\python -m venv %APPVEYOR_BUILD_FOLDER% # https://www.appveyor.com/docs/windows-images-software/#python
-  - set PATH=C:\Python37-x64;%PATH%
-  - which python
-  - python -m pip install six numpy wheel
-  - python -m pip install keras_applications==1.0.6 --no-deps
-  - python -m pip install keras_preprocessing==1.0.5 --no-deps
-  - python -m pip install swiglpk
-  - choco install mono
-  - choco install bazel #--version 0.19.0
-  - choco install swig
-  ### instead of pacman -q -S git patch unzip
-  # - choco install patch
-  # - choco install unzip
-
-# cache:
-#   - C:\ProgramData\chocolatey\lib -> appveyor.yml
-#   - C:\ProgramData\chocolatey\bin -> appveyor.yml
-#   - '%TF_CODE_FOLDER%'
+  - cmd: git clone https://github.com/tensorflow/tensorflow
+  - cmd: cd tensorflow && git checkout %tf_tag_name%
+  - if [%platform_name%]==[x86] git apply ../patches/32bit.patch
+  - cmd: git apply ../patches/add-ops.patch
+  - cmd: mkdir c:\tf && cd c:\tf
+  - cmd: vcpkg integrate remove
 
 build_script:
-  - cd %TF_CODE_FOLDER%
-  - dir
-  - dir C:\Python37-x64\libs
-  ###
-  # - set PY_EXE="C:\Python37-x64\python.exe"
-  # - set PY_LIB="C:\Python37-x64\libs\python37.lib"
-  # - set PIP_EXE="C:\Python37-x64\Scripts\pip.exe"
-  # - set CMAKE_EXE="C:\Program Files (x86)\CMake\bin\cmake"
-  # - set REPO_ROOT=%TF_CODE_FOLDER%
-  # - set SWIG_EXE=C:\ProgramData\chocolatey\bin\swig
-  # - python %TF_CODE_FOLDER%\tensorflow\tools\git\gen_git_source.py --raw_generate %TF_CODE_FOLDER%/tensorflow/core/util/version_info.cc
-  # - tensorflow\tools\ci_build\windows\cpu\cmake\run_build.bat
-  ###
-  - cd %TF_CODE_FOLDER%
-  - dir %APPVEYOR_BUILD_FOLDER%
-  - dir %APPVEYOR_BUILD_FOLDER%\tools
-  - dir %APPVEYOR_BUILD_FOLDER%\tools\lib_package
-  - dir %TF_CODE_FOLDER%\tensorflow\tools\lib_package
-  # - move /Y %APPVEYOR_BUILD_FOLDER%\tools\lib_package\BUILD %TF_CODE_FOLDER%\tensorflow\tools\lib_package
-  # - move /Y %APPVEYOR_BUILD_FOLDER%\icu %TF_CODE_FOLDER%\third_party
-  - set PYTHON_DIRECTORY=Python37-x64
-  - cd %TF_CODE_FOLDER%/tensorflow/tools/ci_build/windows/
-  - sh libtensorflow_cpu.sh
+  - cmd: cmake C:\projects\build-tensorflow\tensorflow\tensorflow\contrib\cmake -DCMAKE_BUILD_TYPE=Release %cmake_ext_arg% -Dtensorflow_BUILD_CC_EXAMPLE=OFF -Dtensorflow_BUILD_PYTHON_BINDINGS=OFF -Dtensorflow_BUILD_SHARED_LIB=ON -Dtensorflow_BUILD_CONTRIB_KERNELS=OFF -Dtensorflow_OPTIMIZE_FOR_NATIVE_ARCH=OFF -Dtensorflow_ENABLE_GRPC_SUPPORT=OFF -Dtensorflow_BUILD_ALL_KERNELS=OFF
+  - cmd: MSBuild /m /p:Configuration=Release tensorflow.vcxproj
 
-notifications:
-- provider: Slack
-  incoming_webhook:
-    secure: Sulkkyq57PP9HQWoRZKZJpw+XELOyFf6DElq7gZrTZQTLWg3rYUIHpnrI1FU9QJhyt/BmO5DgBHqWuIWmiKLAMqyetmET4KsdI43gvgGU0Q=
+after_build:
+  - cmd: 7z a C:\projects\build-tensorflow\libtensorflow-%tf_type%-%os_name%-%platform_name%-%tf_version%.zip C:\tf\Release\tensorflow.dll C:\tf\Release\tensorflow.lib
+
+artifacts:
+  - path: libtensorflow-%tf_type%-%os_name%-%platform_name%-%tf_version%.zip
+    name: libtensorflow-%tf_type%-%os_name%-%platform_name%-%tf_version%.zip
+
+# deploy:
+#   release: TensorFlow-$(tf_version)
+#   description: 'Prebuilded 32 bit (x86) and 64 bit (x86-64) cpu version of TensorFlow C and C++ API for Windows and Linux'
+#   provider: GitHub
+#   auth_token:
+#     secure: 0BKAHbP+Qv2LWfj/sM7t00NAutlp3CJJpQp41RphbkIBRg/QRK7YXIchLHivLxWS
+#   artifact: /.*\.zip/
+#   draft: false
+#   prerelease: false
+#   on:
+#     branch: master

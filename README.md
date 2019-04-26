@@ -1,5 +1,7 @@
 # tensorflowBuild
 
+https://github.com/playertwo/build-tensorflow
+
 ## Inspiration
 I need Tensorflow C api for Win32 and I cannot find a suitable dll. These two sources provide x64 dlls:
 * https://www.tensorflow.org/install/lang_c
