@@ -22,7 +22,7 @@ install:
   - python -m pip install keras_preprocessing==1.0.5 --no-deps
   - python -m pip install swiglpk
   - choco install mono
-  - choco install bazel --version 0.15.0
+  - choco install bazel --version 0.19.0
   - choco install swig
   ### instead of pacman -q -S git patch unzip
   # - choco install patch
